@@ -186,7 +186,7 @@ public class SyncAppGUI {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        String[] systems = { "MONGO", "SQL", "PIG" };
+        String[] systems = { "MONGO", "SQL", "PIG", "HIVE" };
         JComboBox<String> systemDropdown = new JComboBox<>(systems);
         JComboBox<String> operationDropdown = new JComboBox<>(new String[]{"SET", "GET", "MERGE"});
         JTextField studentIdField = new JTextField(15);

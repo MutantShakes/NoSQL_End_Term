@@ -6,7 +6,7 @@ public class SyncServer {
     private final MongoSystem mongo = new MongoSystem();
     private final SQLSystem sql = new SQLSystem();
     private final PigSystem pig = new PigSystem();
-//    private final HiveSystem hive = new HiveSystem();
+    private final HiveSystem hive = new HiveSystem();
 
 
     private int clientCount = 0;
@@ -59,7 +59,7 @@ public class SyncServer {
                 case "MONGO" -> mongo;
                 case "SQL" -> sql;
                 case "PIG" -> pig;
-//                case "HIVE" -> hive;
+                case "HIVE" -> hive;
                 default -> null;
             };
             return switch (op) {

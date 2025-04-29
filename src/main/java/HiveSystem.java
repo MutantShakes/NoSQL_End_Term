@@ -7,9 +7,10 @@ public class HiveSystem implements SystemInterface {
 
     public HiveSystem() {
         try {
-            Class.forName("org.apache.hive.jdbc.HiveDriver");
-            conn = DriverManager.getConnection("jdbc:hive2://localhost:10000/default", "hive", "");
+//            Class.forName("org.apache.hive.jdbc.HiveDriver");
+//            conn = DriverManager.getConnection("jdbc:hive2://localhost:10000/Default", "", "");
         } catch (Exception e) {
+//            System.out.println("CONNECTION ERROR !!!");
             e.printStackTrace();
         }
     }

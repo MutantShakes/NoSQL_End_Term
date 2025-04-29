@@ -4,7 +4,7 @@ public class TestCaseExecutor {
     public MongoSystem mongo = new MongoSystem();
     public PigSystem pig = new PigSystem();
     public SQLSystem sql = new SQLSystem();
-//    public HiveSystem hive = new HiveSystem();
+    public HiveSystem hive = new HiveSystem();
  
     public void execute(String testFile) {
         try (BufferedReader br = new BufferedReader(new FileReader(testFile))) {
@@ -107,7 +107,7 @@ public class TestCaseExecutor {
             case "MONGO" -> mongo;
             case "PIG" -> pig;
             case "SQL" -> sql;
-//            case "HIVE" -> hive;
+            case "HIVE" -> hive;
             default -> throw new IllegalArgumentException("Unknown system: " + name);
         };
     }
