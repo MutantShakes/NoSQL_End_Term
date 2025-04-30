@@ -5,11 +5,11 @@
 3. **Muteeb Sheikh(IMT2021008)**
 4. **Rishi Nelapati(IMT2021076)**
 
-In  this project we have demonstrated the concepts of data integration and synchronization across heterogeneous systems mainly MongoDB, Pig, Hive and MySQL, utilising student records file, which contains student id, course id and grade for each student.
+In  this project we have demonstrated the concepts of data integration and synchronization across heterogeneous systems mainly MongoDB, Pig and MySQL, utilising student records file, which contains student id, course id and grade for each student.
 
 ## Introduction
 
-The project focuses on designing and implementing a distributed NoSQL triple store that manages subject-predicate-object triples. The system must support query, update, and merge operations to ensure efficient data storage, retrieval, and synchronization across multiple servers. The database taken into consideration are MongoDB, Pig, Hive and MySQL.
+The project focuses on designing and implementing a distributed NoSQL triple store that manages subject-predicate-object triples. The system must support query, update, and merge operations to ensure efficient data storage, retrieval, and synchronization across multiple servers. The database taken into consideration are MongoDB, Pig and MySQL.
 
 # Project Folder Structure and Code Overview
 
@@ -54,19 +54,13 @@ The following ways by which CRUD operations take place in each of the datastore 
 - **Update**: `updateOne()`, `updateMany()` with `$set`, `$inc` to modify documents.
 - **Delete**: `deleteOne()`, `deleteMany()` to remove documents based on criteria.
 
-### 2. Hive
-- **Create**: `CREATE TABLE` to define schema; `INSERT INTO` or `LOAD DATA` to load records.
-- **Read**: `SELECT` queries to retrieve data using HQL.
-- **Update**: Limited support via `MERGE` or by overwriting partitions in newer versions.
-- **Delete**: `DELETE` supported with transactional tables in newer Hive versions.
-
-### 3. Pig
+### 2. Pig
 - **Create**: Load data using `LOAD` statement and define schemas using `AS`.
 - **Read**: Use `FOREACH`, `FILTER`, and `DUMP` to process and view data.
 - **Update**: Not directly supported; simulate by transformation and reloading.
 - **Delete**: No native support; achieved by filtering out records and rewriting output.
 
-### 4. MySQL
+### 3. MySQL
 - **Create**: `INSERT INTO` to add records.
 - **Read**: `SELECT` queries to fetch records.
 - **Update**: `UPDATE` statement with `SET` clause to modify data.
@@ -75,9 +69,9 @@ The following ways by which CRUD operations take place in each of the datastore 
 Here, only reading and updating are relevant for the scope of the project.
 
 ## MongoSystem.java Functionality
-The `MongoSystem.java` class facilitates interaction with a Hive database for managing student course grades, implementing the `SystemInterface`. The `set` method inserts or updates a grade for a given student ID and course ID in the `student_course_grades` table, logging the operation with a timestamp in `oplog.hive`. The `get` method retrieves the grade for a specified student ID and course ID, returning "NULL" if no record exists. The `merge` method synchronizes the MongoDB system with another system by reading the other system's operation log (e.g., `oplog.pig`), extracting "SET" operations, and applying them to the MongoDB database using the `set` method, ensuring data consistency across systems.
+The `MongoSystem.java` class facilitates interaction with the database for managing student course grades, implementing the `SystemInterface`. The `set` method inserts or updates a grade for a given student ID and course ID in the `student_course_grades` table, logging the operation with a timestamp in `oplog.mongo`. The `get` method retrieves the grade for a specified student ID and course ID, returning "NULL" if no record exists. The `merge` method synchronizes the MongoDB system with another system by reading the other system's operation log (e.g., `oplog.pig`), extracting "SET" operations, and applying them to the MongoDB database using the `set` method, ensuring data consistency across systems.
 
-The similar funcitonality is written in case of `PigSystem.java`, `HiveSystem.java` and `SQLSystem.java`.
+The similar funcitonality is written in case of `PigSystem.java` and `SQLSystem.java`.
 
 ## Getting Started
 
@@ -115,12 +109,13 @@ The above command needs to be executed that many times as many number of clients
 
 ![Images](Pictures/mong_server_not_running_error.png)
 
+**Note:** Due to Hive issues as discussed by professor and TAs, and due to random errors, we had considered not to move ahead with it. Rest of the codes are working, and is completing the scope of the project.
 
 ## Demonstrating Set, Get, and Merge Functionalities
 
 This section showcases the functionality of the `set`, `get`, and `merge` methods implemented in `MongoSystem.java` (with similar implementations in `PigSystem.java`, and `SQLSystem.java`) using the GUI launched via `./app.sh`.
 
-- **Set Functionality**: The `set` method allows users to insert or update a grade for a specific student ID and course ID. Through the GUI, users input the student ID, course ID, and grade, which are then saved to the `student_course_grades` table in the Hive database and logged in `oplog.mongo`.
+- **Set Functionality**: The `set` method allows users to insert or update a grade for a specific student ID and course ID. Through the GUI, users input the student ID, course ID, and grade, which are then saved to the `student_course_grades` table in the database and logged in `oplog.mongo`.
   - **Screenshot**:  
     ![Set Functionality](Pictures/mongo_set_2.png)
 
@@ -222,7 +217,7 @@ Thus, the **convergence** is not necessary.
 
 ## Authors and Contributions
 
-1. **Keshav Chandak (IMT2021003)** - Contributed in documentation regarding the properties of merge operations and Hive setup, tried the Hive setup locally, but could not due to system and Hive incompatibility. Then, shifted to docker due to the image containing derby, hadoop, and java configurations, which simplified the issue. The total contribution in terms of percentages would be **24%**.
+1. **Keshav Chandak (IMT2021003)** - Contributed in coding part of Java interfaces, documentation regarding the properties of merge operations like associativity, commutativity, idempotence, and helped in formulating the GUI logic. The total contribution in terms of percentages would be **24%**.
 2. **Sunny Kaushik (IMT2021007)** - Contributed in documentation regarding the details of the project like the oplogs, project structure and Pig setup. Then, shifted to docker due to the image containing derby, hadoop, and java configurations, which simplified the issue. The total contribution in terms of percentages would be **24%**.
 3. **Muteeb Sheikh(IMT2021008)** - Contributed in merging the whole project, and created GUI along with the logic and coding of timestamp ordering and logging for each operations. Took the lead in project development lifecycle. The total contribution in terms of percentages would be **30%**. 
 4. **Rishi Nelapati (IMT2021076)** - Contributed with documentation and MySQL operations code, and created sample testcases for operations on each datastore. The total contribution in terms of percentages would be **22%**. 
@@ -230,5 +225,5 @@ Thus, the **convergence** is not necessary.
 
 ## Acknowledgments
 
-We acknowledge the help of Prof. Vinu E Venugopal for helping us with the clarity of the project, and helping us understand the approximate workflow of the project. It was an incredible project to work with, and helped us understand the working of each datastore, along with the intricate details for each of Pig, Hive, MySQL and MongoDB.
+We acknowledge the help of Prof. Vinu E Venugopal for helping us with the clarity of the project, and helping us understand the approximate workflow of the project. It was an incredible project to work with, and helped us understand the working of each datastore, along with the intricate details for each of Pig, MySQL and MongoDB.
 
