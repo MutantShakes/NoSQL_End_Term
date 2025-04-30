@@ -16,12 +16,37 @@ public class PigSystem implements SystemInterface {
     }
 
     public void set(String sid, String cid, String grade) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(dataFile, true))) {
-            bw.write(sid + "," + cid + "," + grade);
-            bw.newLine();
+        List<String> lines = new ArrayList<>();
+        boolean updated = false;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(dataFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] tokens = line.split(",");
+                if (tokens[0].equals(sid) && tokens[1].equals(cid)) {
+                    lines.add(sid + "," + cid + "," + grade); // update line
+                    updated = true;
+                } else {
+                    lines.add(line); // keep original
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (!updated) {
+            lines.add(sid + "," + cid + "," + grade); // append new
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(dataFile))) {
+            for (String l : lines) {
+                bw.write(l);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         OperationLog.appendOperation(logFile, counter++ + ", SET((" + sid + "," + cid + "), " + grade + ")");
     }
 
